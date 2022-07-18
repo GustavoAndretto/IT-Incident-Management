@@ -1,0 +1,13 @@
+com\app\itsm\user\UserService.class
+com\app\itsm\security\SecurityConfig.class
+com\app\itsm\security\user\UserDetailsImpl.class
+com\app\itsm\ticket\Ticket.class
+com\app\itsm\user\Role.class
+com\app\itsm\ticket\TicketRepository.class
+com\app\itsm\ticket\TicketService.class
+com\app\itsm\user\User.class
+com\app\itsm\user\UserRepository.class
+com\app\itsm\ItsmApplication.class
+com\app\itsm\user\UserController.class
+com\app\itsm\ticket\TicketController.class
+com\app\itsm\security\user\UserDetailsServiceImpl.class
