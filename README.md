@@ -44,6 +44,8 @@ $ git clone https://github.com/GustavoAndretto/IT-Incident-Management.git
 
 ```
 $ cd frontend
+$ npm install
+$ vue add quasar
 $ npm run serve
 ```
 
