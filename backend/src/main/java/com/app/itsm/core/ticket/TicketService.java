@@ -80,7 +80,7 @@ public class TicketService {
       ticket.setNotes(ticketDTO.getNotes().get());
 
     if (ticketDTO.getTechnician().isPresent())
-      ticket.setDescription(ticketDTO.getTechnician().get());
+      ticket.setTechnician(ticketDTO.getTechnician().get());
 
     return new TicketDTO(repository.save(ticket));
   }

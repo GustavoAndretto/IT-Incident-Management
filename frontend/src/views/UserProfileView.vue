@@ -13,7 +13,7 @@
           </q-input>
         </div>
         <div class="col">
-          <q-input v-model="user.cpf" label="CPF">
+          <q-input v-model="user.cpf" mask="###.###.###-##" label="CPF">
             <template v-slot:prepend>
               <q-icon name="123" />
             </template>
@@ -22,7 +22,7 @@
       </div>
       <div class="row q-my-sm">
         <div class="col q-mx-sm">
-          <q-input v-model="user.phone" label="Telefone">
+          <q-input v-model="user.phone" mask="(##) #####-####" label="Telefone">
             <template v-slot:prepend>
               <q-icon name="phone" />
             </template>
@@ -79,6 +79,8 @@ export default {
         role: this.getRoleFromRoleName(this.profile.value),
         password: this.user.password
       }
+
+      console.log(user);
 
       this.getSession().then(session => {
         userService.update(user, session).then(response => {

@@ -14,7 +14,7 @@
             </q-input>
           </div>
           <div class="col">
-            <q-input v-model="user.cpf" type="number" label="CPF" lazy-rules :rules="[this.required]">
+            <q-input v-model="user.cpf" mask="###.###.###-##" label="CPF" lazy-rules :rules="[this.required]">
               <template v-slot:prepend>
                 <q-icon name="123" />
               </template>
@@ -23,7 +23,7 @@
         </div>
         <div class="row q-my-sm">
           <div class="col q-mx-sm">
-            <q-input v-model="user.phone" type="phone" label="Telefone" lazy-rules :rules="[this.required]">
+            <q-input v-model="user.phone" mask="(##) #####-####"  label="Telefone" lazy-rules :rules="[this.required]">
               <template v-slot:prepend>
                 <q-icon name="phone" />
               </template>
@@ -164,7 +164,7 @@ export default {
         enabled: false,
         profile: {
           value: 'Usuário',
-          options: ['Usuário', 'Técnico', 'Admnistrador']
+          options: ['Usuário', 'Técnico', 'Administrador']
         }
       }
     }

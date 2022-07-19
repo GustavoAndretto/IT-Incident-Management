@@ -60,7 +60,7 @@ export default {
             }
           }).catch(reason => {
             // Usuário ou senha foram inseridos incorretamente
-            if(reason.response.status == 401) {
+            if(reason) {
               this.notifyError("Acesso negado, email ou senha incorretos!");
             }
           })

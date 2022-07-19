@@ -18,7 +18,8 @@
             </q-input>
           </div>
           <div class="col">
-            <q-input dense v-model="user.cpf" type="number" label="CPF" lazy-rules :rules="[this.required]">
+            <q-input dense v-model="user.cpf" label="CPF" mask="###.###.###-##" lazy-rules
+              :rules="[this.required]">
               <template v-slot:prepend>
                 <q-icon name="123" />
               </template>
@@ -27,15 +28,16 @@
         </div>
         <div class="row q-my-sm">
           <div class="col q-mx-sm">
-            <q-input dense v-model="user.phone" type="phone" label="Telefone" lazy-rules :rules="[this.required]">
+            <q-input dense v-model="user.phone" mask="(##) #####-####" label="Telefone" lazy-rules
+              :rules="[this.required]">
               <template v-slot:prepend>
                 <q-icon name="phone" />
               </template>
             </q-input>
           </div>
           <div class="col">
-            <q-select dense v-model="user.role.value" :options="user.role.options" lazy-rules
-              :rules="[this.required]" label="Perfil de Acesso">
+            <q-select dense v-model="user.role.value" :options="user.role.options" lazy-rules :rules="[this.required]"
+              label="Perfil de Acesso">
               <template v-slot:prepend>
                 <q-icon name="lock" />
               </template>
@@ -96,8 +98,8 @@
           </q-input>
         </div>
       </div>
-      <q-table flat :rows="rows" :columns="columns" :loading="loading" :pagination="pagination" :filter="filter"
-        row-key="name">
+      <q-table flat :rows="rows" :visible-columns="visibleColumns()" :columns="columns" :loading="loading"
+        :pagination="pagination" :filter="filter" row-key="name">
         <template v-slot:no-data>
           <div class="full-width row flex-center">
             <span>
@@ -105,7 +107,7 @@
             </span>
           </div>
         </template>
-        <template v-slot:body-cell-actions="props">
+        <template v-if="role > 0" v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn dense round flat color="grey" @click="editRow(props)" icon="edit"></q-btn>
             <q-btn dense round flat color="grey" @click="deleteRow(props)" icon="delete"></q-btn>
@@ -135,8 +137,9 @@ import { AUTH_CONST_JWT_SESSION } from '@/services/constants/auth.constants';
 import { LANG_INPUT_EMAIL_INVALID, LANG_INPUT_REQUIRED } from '@/lang/lang.ptbr';
 import { useQuasar } from 'quasar';
 import userService from '@/services/user.service';
+import { USER_SERVICE_SESSION_INFO } from '@/services/constants/user.constants';
 
-const columns = [
+var columns = [
   { name: 'id', field: 'id', label: 'Número', align: 'center', sortable: true },
   { name: 'cpf', field: 'cpf', label: 'CPF', align: 'center', sortable: true },
   { name: 'email', field: 'email', label: 'Email', align: 'center' },
@@ -147,7 +150,7 @@ const columns = [
   { name: 'passwordExpired', field: 'passwordExpired', label: 'Senha Expirada', align: 'center' },
   { name: 'createdIn', field: 'createdIn', label: 'Criado em', align: 'center', sortable: true },
   { name: 'modifiedIn', field: 'modifiedIn', label: 'Atualizado em', align: 'center', sortable: true },
-  { name: 'actions', field: 'actions', label: 'Ação', align: 'center', sortable: false }
+  { name: 'actions', field: 'actions', label: 'Ação', align: 'center', sortable: false, hide: 'permitView()' }
 ]
 
 function getSession() {
@@ -271,15 +274,14 @@ export default {
       this.user.role.value = props.row.role;
       this.user.enabled = props.row.enabled;
       this.user.passwordExpired = props.row.passwordExpired;
-
-      //this.ticket.id = props.row.id;
-      //this.ticket.requester = props.row.requester;
-      //this.ticket.technician = props.row.technician;
-      //this.ticket.title = props.row.title;
-      //this.ticket.description = props.row.description;
-      //this.ticket.notes = props.row.notes;
-      //this.ticket.priority.value = props.row.priority;
-      //this.ticket.status.value = props.row.status;
+    },
+    visibleColumns() {
+      if (this.role > 0) {
+        return ['id', 'cpf', 'email', 'name', 'phone', 'enabled', 'role', 'passwordExpired', 'createdIn', 'actions'];
+      }
+      else {
+        return ['id', 'cpf', 'email', 'name', 'phone', 'enabled', 'role', 'passwordExpired', 'createdIn'];
+      }
     }
   },
 
@@ -296,9 +298,10 @@ export default {
         enabled: false,
         role: {
           value: 'Usuário',
-          options: ['Usuário', 'Técnico', 'Admnistrador']
+          options: ['Usuário', 'Técnico', 'Administrador']
         }
       },
+      role: 0,
       dialogDelete: false,
       editMode: false,
       rows: [],
@@ -333,6 +336,14 @@ export default {
   },
   mounted() {
     this.updateUserList();
+
+    localforage.getItem(USER_SERVICE_SESSION_INFO).then(data => {
+      return this.role = data.role;
+    }).then(role => {
+      if (role > 0) {
+        this.role = role;
+      }
+    })
   }
 }
 </script>

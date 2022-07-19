@@ -6,7 +6,6 @@ import ErrorView from '../views/PageNotFoundView.vue'
 import TicketCreatetView from '../views/TicketCreateView.vue'
 import TicketListView from '../views/TicketListView.vue'
 import UserCreateView from '../views/UserCreateView.vue'
-import UserUpdateView from '../views/UserUpdateView.vue'
 import UserProfileView from '../views/UserProfileView.vue'
 import UserListView from '../views/UserListView.vue'
 
@@ -30,14 +29,6 @@ const routes = [
     meta: {
       // Define se a rota ficará inacessível no caso de a sessão já ter sido criada
       hideForAuth: true
-    }
-  },
-  {
-    path: '/user/update',
-    name: 'user',
-    component: UserUpdateView,
-    meta: {
-      requiresAuth: true
     }
   },
   {

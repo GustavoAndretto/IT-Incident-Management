@@ -3,7 +3,7 @@
       <q-card-section>
       <div class="row">
         <div class="col">
-          <h4 class="text-h5 text-black q-my-none">Gerenciador de Incidentes de TI</h4>
+          <h4 class="text-h5 text-black q-my-none">IT Incident Management</h4>
         </div>
       </div>
     </q-card-section>

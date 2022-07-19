@@ -58,8 +58,8 @@ public class User {
   private Date modifiedIn;
 
   public User() {
-    this.enabled = false;
-    this.passwordExpired = true;
+    this.enabled = true;
+    this.passwordExpired = false;
     this.role = UserRole.USER.getId();
   }
 
