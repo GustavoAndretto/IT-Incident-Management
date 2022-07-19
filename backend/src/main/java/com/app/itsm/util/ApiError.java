@@ -3,7 +3,7 @@ package com.app.itsm.util;
 import java.util.Date;
 
 public class ApiError {
-    Long status;
+    Integer status;
 
     String error;
 
@@ -13,11 +13,18 @@ public class ApiError {
 
     Date timestamp;
 
-    public Long getStatus() {
+    public ApiError(Integer status, String error, String message, String path) {
+        this.status = status;
+        this.error = error;
+        this.message = message;
+        this.path = path;
+    }
+
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

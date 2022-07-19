@@ -125,7 +125,7 @@ export default {
     return {
       profile: {
         value: null,
-        options: ['Usuário', 'Técnico', 'Admnistrador']
+        options: ['Usuário', 'Técnico', 'Administrador']
       },
       user: {
         name: null,

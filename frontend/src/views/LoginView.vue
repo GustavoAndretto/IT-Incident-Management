@@ -32,6 +32,7 @@ import { LANG_INPUT_REQUIRED, LANG_INPUT_EMAIL_INVALID } from '../lang/lang.ptbr
 import { USER_SERVICE_SESSION_INFO } from '../services/constants/user.constants'
 import router from '@/router'
 import localforage from 'localforage'
+import { useQuasar } from 'quasar'
 
 export default {
   data: () => ({
@@ -46,14 +47,21 @@ export default {
             if (session) {
               // Carrega o perfil do usuário
               userService.load(session).then(response => {
-                if (response) {
+                if (response.status == 200) {
                   // Armazena os dados do usuário em cache
                   localforage.setItem(USER_SERVICE_SESSION_INFO, response.data);
+
+                  this.notifyOk("Logado com sucesso!");
 
                   // Direciona para a home page após autenticação
                   router.go({ name: 'home' });
                 }
               })
+            }
+          }).catch(reason => {
+            // Usuário ou senha foram inseridos incorretamente
+            if(reason.response.status == 401) {
+              this.notifyError("Acesso negado, email ou senha incorretos!");
             }
           })
         }
@@ -77,7 +85,25 @@ export default {
     }
   },
   setup() {
-    return {}
+    const $q = useQuasar();
+
+    return {
+      notifyOk(msg) {
+        $q.notify({
+          type: 'positive',
+          timeout: 800,
+          message: msg
+        })
+      },
+
+      notifyError(msg) {
+        $q.notify({
+          type: 'negative',
+          timeout: 2000,
+          message: msg
+        })
+      }
+    }
   }
 }
 </script>

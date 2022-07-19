@@ -39,6 +39,12 @@ public class TicketService {
     ticket.setTitle(ticketDTO.getTitle().get());
     ticket.setDescription(ticketDTO.getDescription().get());
 
+    if (ticketDTO.getTechnician().isPresent())
+      ticket.setTechnician(ticketDTO.getTechnician().get());
+
+    if (ticketDTO.getNotes().isPresent())
+      ticket.setNotes(ticketDTO.getNotes().get());
+
     return new TicketDTO(repository.save(ticket));
   }
 
@@ -59,7 +65,7 @@ public class TicketService {
     if (ticketDTO.getStatus().isPresent()) {
       ticket.setStatus(ticketDTO.getStatus().get());
 
-      if(ticketDTO.getStatus().get() == TicketStatus.CLOSED.getId()){
+      if (ticketDTO.getStatus().get() == TicketStatus.CLOSED.getId()) {
         ticket.setClosedIn(new Date());
       }
     }
@@ -70,8 +76,11 @@ public class TicketService {
     if (ticketDTO.getDescription().isPresent())
       ticket.setDescription(ticketDTO.getDescription().get());
 
-      if (ticketDTO.getNotes().isPresent())
+    if (ticketDTO.getNotes().isPresent())
       ticket.setNotes(ticketDTO.getNotes().get());
+
+    if (ticketDTO.getTechnician().isPresent())
+      ticket.setDescription(ticketDTO.getTechnician().get());
 
     return new TicketDTO(repository.save(ticket));
   }

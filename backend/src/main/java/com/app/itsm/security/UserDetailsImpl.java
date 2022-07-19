@@ -26,6 +26,10 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
+        // Roles possuem hierarquia, conforme abaixo:
+        // ADMIN: [ADMIN, TECHNICIAN, USER]
+        // TECHNICIAN: [TECHNICIAN, USER]
+        // USER: [USER]
         for(Integer i = user.getRole(); i >= 0; i--){
             authorities.add(new SimpleGrantedAuthority(UserRole.fromId(i).getName()));
         }

@@ -75,6 +75,7 @@ export default {
             priority: this.getPriorityFromPriorityName(this.ticket.priority.value),
             status: this.getStatusFromStatusName(this.ticket.status.value),
           }
+
           // Cria o ticket conforme os dados inseridos no formulário
           this.getSession().then(session => {
             ticketService.save(ticket, session).then(response => {

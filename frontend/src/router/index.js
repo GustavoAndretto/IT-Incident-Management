@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
 import LoginView from '../views/LoginView.vue'
 import ErrorView from '../views/PageNotFoundView.vue'
 import TicketCreatetView from '../views/TicketCreateView.vue'
@@ -23,11 +22,6 @@ const routes = [
       // Define se a rota precisará de autenticação para ser acessado
       requiresAuth: true,
     }
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: AboutView
   },
   {
     path: '/login',

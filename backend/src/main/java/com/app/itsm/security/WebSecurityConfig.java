@@ -57,15 +57,19 @@ public class WebSecurityConfig {
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-
+        // Adiciona o filtro de autenticação
         http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtil));
+
+        // Adiciona o filtro de autorização
         http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
+
+        // Libera o acesso nao autorizado apenas ao endpoint de login
         http.authorizeRequests().antMatchers("/api/auth/login", "/api/auth/login/**").permitAll().anyRequest().authenticated();
 
         return http.build();
     }
 
-    @Bean
+    @Bean // Habilita o CORS para as requisições do tipo POST, GET, PUT, DELETE, OPTIONS
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
         configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));

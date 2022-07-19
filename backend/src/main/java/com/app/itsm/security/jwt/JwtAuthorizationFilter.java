@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.app.itsm.security.UserDetailsServiceImpl;
 import com.app.itsm.security.jwt.util.JwtUtil;
+
+import net.minidev.json.JSONObject;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -50,6 +53,23 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         return null;
+    }
+
+    @Override
+    protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException failed) throws IOException {
+        Integer status = 401;
+
+        response.setStatus(status);
+        response.setContentType("application/json");
+
+        JSONObject obj = new JSONObject();
+        obj.put("status", status);
+        obj.put("error", "Unauthorized");
+        obj.put("message", "Unauthorized");
+        obj.put("path", "/auth/login");
+
+        response.getWriter().append(obj.toString());
     }
 
 }

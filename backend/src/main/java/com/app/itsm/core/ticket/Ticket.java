@@ -39,7 +39,7 @@ public class Ticket {
   @Column(nullable = false, length = 2000)
   private String description;
 
-  @Column(nullable = true, length = 2000)
+  @Column(nullable = false, length = 2000)
   private String notes;
 
   @CreationTimestamp

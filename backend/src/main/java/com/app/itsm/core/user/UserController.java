@@ -3,6 +3,7 @@ package com.app.itsm.core.user;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +30,13 @@ public class UserController {
     return service.findByEmail(email);
   }
 
+  @PreAuthorize("hasRole('ROLE_TECHNICIAN')")
   @PostMapping("/create")
   public UserDTO create(@RequestBody UserDTO userDTO) {
     return service.create(userDTO);
   }
 
+  @PreAuthorize("hasRole('ROLE_TECHNICIAN')")
   @PutMapping("/update")
   UserDTO update(@RequestBody UserDTO userDTO) {
     return service.update(userDTO);
@@ -44,6 +47,7 @@ public class UserController {
     return service.findAll();
   }
 
+  @PreAuthorize("hasRole('ROLE_TECHNICIAN')")
   @DeleteMapping("/delete")
   void delete(@RequestParam String email) {
     service.delete(email);

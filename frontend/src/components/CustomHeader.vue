@@ -29,7 +29,7 @@
       <q-list>
 
         <template v-for="(menuItem, index) in menuList" :key="index">
-          <q-item clickable v-ripple :to="menuItem.route">
+          <q-item v-if="menuItem.accessLevel <= user.role" clickable v-ripple :to="menuItem.route">
             <q-item-section avatar>
               <q-icon :name="menuItem.icon" />
             </q-item-section>
@@ -57,31 +57,36 @@ const menuList = [
     icon: 'home',
     label: 'Home',
     separator: false,
-    route: '/'
+    route: '/',
+    accessLevel: 0
   },
   {
     icon: 'person_add',
     label: 'Novo Usuário',
     separator: false,
-    route: '/user/create'
+    route: '/user/create',
+    accessLevel: 1
   },
   {
     icon: 'people',
     label: 'Lista de Usuários',
     separator: false,
-    route: '/user/list'
+    route: '/user/list',
+    accessLevel: 0
   },
   {
     icon: 'assignment',
     label: 'Novo Chamado',
     separator: false,
-    route: '/ticket/create'
+    route: '/ticket/create',
+    accessLevel: 0
   },
   {
     icon: 'view_list',
     label: 'Lista de Chamados',
     separator: false,
-    route: '/ticket/list'
+    route: '/ticket/list',
+    accessLevel: 0
   }
 ]
 
@@ -97,12 +102,14 @@ export default {
     const leftDrawerOpen = ref(false);
 
     let user = {
+      role: null,
       name: null,
       initial: null
     }
 
     // Carrega o nome do usuário e inicial do nome
     localforage.getItem(USER_SERVICE_SESSION_INFO).then(data =>{
+      user.role = data.role
       user.name = data.name;
       user.initial = data.name.charAt(0);
     })

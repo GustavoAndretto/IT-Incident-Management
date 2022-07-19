@@ -91,7 +91,7 @@
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn dense round flat color="grey" @click="editRow(props)" icon="edit"></q-btn>
-            <q-btn dense round flat color="grey" @click="deleteRow(props)" icon="delete"></q-btn>
+            <q-btn v-if="user.role==2" dense round flat color="grey" @click="deleteRow(props)" icon="delete"></q-btn>
           </q-td>
         </template>
       </q-table>
@@ -118,6 +118,7 @@ import localforage from 'localforage';
 import { AUTH_CONST_JWT_SESSION } from '@/services/constants/auth.constants';
 import { LANG_INPUT_REQUIRED } from '@/lang/lang.ptbr';
 import { useQuasar } from 'quasar';
+import { USER_SERVICE_SESSION_INFO } from '@/services/constants/user.constants';
 
 const columns = [
   { name: 'id', field: 'id', label: 'Número', align: 'center', sortable: true },
@@ -127,7 +128,8 @@ const columns = [
   { name: 'status', field: 'status', label: 'Status', align: 'center' },
   { name: 'createdIn', field: 'createdIn', label: 'Criado em', align: 'center', sortable: true },
   { name: 'closedIn', field: 'closedIn', label: 'Encerrado em', align: 'center', sortable: true },
-  { name: 'actions', field: 'actions', label: 'Ação', align: 'center', sortable: false }
+  { name: 'actions', field: 'actions', label: 'Ação', align: 'center', sortable: false },
+
 ]
 
 function getSession() {
@@ -190,6 +192,7 @@ export default {
                 let row = {
                   id: obj.id,
                   requester: obj.requester,
+                  technician: obj.technician,
                   title: obj.title,
                   description: obj.description,
                   notes: obj.notes,
@@ -294,7 +297,16 @@ export default {
   setup() {
     const $q = useQuasar();
 
+    let user = {
+      role: null
+    }
+
+    localforage.getItem(USER_SERVICE_SESSION_INFO).then(data =>{
+      user.role = data.role;
+    })
+
     return {
+      user,
       notifyOk(msg) {
         $q.notify({
           type: 'positive',
