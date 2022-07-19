@@ -1,4 +1,4 @@
-# Gerenciador de Incidentes de TI
+# IT Incident Management
 
 Tem como objetivo realizar o registro de chamados, usuários e acompanhar o andamento das solicitações.
 
